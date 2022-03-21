@@ -628,6 +628,7 @@ export default withRouter(
             if( e.key=="b" ) {
                 if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "Barracks", type: "structure"}); return }
                 this.hotkey_context = CTX_B
+                this.forceUpdate()
                 return
             }
             if( e.key=="c" ) {
@@ -661,6 +662,12 @@ export default withRouter(
                 if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "BattleCruiser", type: "unit"}); return }
                 return
             }
+            if( e.key=="q" ) {
+                this.addItemToBO({name: "worker_to_scout", type: "action"})
+            }
+            if( e.key=="w" ) {
+                this.addItemToBO({name: "worker_from_scout", type: "action"})
+            }
             if( e.key=="r" ) {
                 if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "Refinery", type: "structure"}); return }
                 if ( this.hotkey_context == CTX_CC ) { this.addItemToBO({name: "3worker_to_gas", type: "action"}); return }
@@ -680,6 +687,7 @@ export default withRouter(
             }
             if( e.key=="v" ) {
                 this.hotkey_context = CTX_V
+                this.forceUpdate()
                 return
             }
             if( e.key=="x" ) {
@@ -690,18 +698,22 @@ export default withRouter(
             }
             if( e.key=="1" ) {
                 this.hotkey_context = CTX_CC
+                this.forceUpdate()
                 return
             }
             if( e.key=="2" ) {
                 this.hotkey_context = CTX_R
+                this.forceUpdate()
                 return
             }
             if( e.key=="3" ) {
                 this.hotkey_context = CTX_F
+                this.forceUpdate()
                 return
             }
             if( e.key=="4" ) {
                 this.hotkey_context = CTX_S
+                this.forceUpdate()
                 return
             }
             if( e.key=="Tab" ) {
@@ -712,10 +724,12 @@ export default withRouter(
                 } else if (this.hotkey_context == CTX_S) {
                     this.hotkey_context = CTX_R
                 }
+                this.forceUpdate()
                 return
             }
             if( e.key=="Backspace" ) {
-                this.undo()
+                //this.undo()
+                this.removeItemFromBO(this.state.insertIndex-1)
             }
 
             //Optimize constraints
@@ -812,6 +826,16 @@ export default withRouter(
             ) : (
                 <Read gamelogic={this.state.gamelogic} log={this.log} />
             )
+
+            let selectionText = ""
+            if( this.hotkey_context == CTX_CC ) { selectionText = "Command Centers" }
+            if( this.hotkey_context == CTX_R  ) { selectionText = "Barracks" }
+            if( this.hotkey_context == CTX_F  ) { selectionText = "Factories" }
+            if( this.hotkey_context == CTX_S  ) { selectionText = "Starports" }
+            if( this.hotkey_context == CTX_B  ) { selectionText = "Build Menu" }
+            if( this.hotkey_context == CTX_V  ) { selectionText = "Advanced Build Menu" }
+
+
             return (
                 <div
                     className={`flex flex-col h-screen justify-between ${CLASSES.backgroundcolor}`}
@@ -875,6 +899,7 @@ export default withRouter(
                                     </div>
                                 </div>
                             </div>
+                            <p style={{fontSize: 40}}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{selectionText}</p>
                         </div>
                         <div className={`flex flex-row  ${CLASSES.backgroundcolor}`}>
                             <div

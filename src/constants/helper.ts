@@ -73,7 +73,7 @@ const defaultSettings: Array<ISettingsElement> = [
             "Time for workers before they arrive at the target build location to start construction.",
         variableName: "workerBuildDelay",
         n: "wbd",
-        v: 1,
+        v: 0,
         min: 0,
         max: 1000,
         step: 0.5,
