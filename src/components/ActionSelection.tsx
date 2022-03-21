@@ -143,12 +143,8 @@ export default class ActionsSelection extends Component<MyProps, MyState> {
                 this.onMouseEnter(
                     e,
                     <div className="flex flex-col text-center">
-                        <div>Build unit</div>
                         <div>{item.name}</div>
-                        <div>Minerals: {item.minerals}</div>
-                        <div>Vespene: {item.gas}</div>
-                        <div>Supply: {item.supply}</div>
-                        <div>Train time: {Math.round(item.time / 22.4)}s</div>
+                        <div>{item.minerals}/{item.gas}/{item.supply}/{Math.round(item.time / 22.4)}s</div>
                     </div>
                 )
             }
@@ -182,11 +178,8 @@ export default class ActionsSelection extends Component<MyProps, MyState> {
                 this.onMouseEnter(
                     e,
                     <div className="flex flex-col text-center">
-                        <div>Build structure</div>
                         <div>{item.name}</div>
-                        <div>Minerals: {item.minerals}</div>
-                        <div>Vespene: {item.gas}</div>
-                        <div>Build time: {Math.round(item.time / 22.4)}s</div>
+                        <div>{item.minerals}/{item.gas}/{Math.round(item.time / 22.4)}s</div>
                     </div>
                 )
             }
@@ -219,11 +212,8 @@ export default class ActionsSelection extends Component<MyProps, MyState> {
                 this.onMouseEnter(
                     e,
                     <div className="flex flex-col text-center">
-                        <div>Research upgrade</div>
                         <div>{item.name}</div>
-                        <div>Minerals: {item.cost.minerals}</div>
-                        <div>Vespene: {item.cost.gas}</div>
-                        <div>Research time: {Math.round(item.cost.time / 22.4)}s</div>
+                        <div>{item.cost.minerals}/{item.cost.gas}/{Math.round(item.cost.time / 22.4)}s</div>
                     </div>
                 )
             }

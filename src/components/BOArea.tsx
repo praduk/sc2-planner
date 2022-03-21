@@ -74,12 +74,11 @@ export default class BOArea extends Component<MyProps, MyState> {
             item.type === "action" ? "" : CONVERT_SECONDS_TO_TIME_STRING(item.end / 22.4)
         // const itemName = item.type === "action" ? CUSTOMACTIONS_BY_NAME[item.name].name : item.name
 
-        const finishText = endTime === "" ? "" : `Finish: ${endTime}`
+        const finishText = endTime === "" ? "" : ` - ${endTime}`
 
         this.tooltipContent = (
             <div className="flex flex-col text-center">
-                <div>Start: {startTime}</div>
-                <div>{finishText}</div>
+                <div>{startTime}{finishText}</div>
                 <div>Supply: {item.supply}</div>
             </div>
         )

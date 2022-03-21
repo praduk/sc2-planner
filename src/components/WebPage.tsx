@@ -42,7 +42,17 @@ interface Save {
     log?: Log
 }
 
+
 // Importing json doesnt seem to work with `import` statements, but have to use `require`
+
+
+// Contexts for Hotkeys
+const CTX_CC = 0; // Command Center
+const CTX_R = 1;  // Barracks
+const CTX_F = 2;  // Factory
+const CTX_S = 3;  // Starport
+const CTX_B = 4;  // Build Menu
+const CTX_V = 5;  // Build Advanced Menu 
 
 export default withRouter(
     class WebPage extends Component<RouteComponentProps, WebPageState> {
@@ -50,6 +60,7 @@ export default withRouter(
         onAddConstraint: (index: number, action: ConstraintType) => void = () => null
         history: Save[] = []
         historyPosition = 0
+        hotkey_context = CTX_CC
         currentLogLine?: Log
 
         // TODO I dont know how to fix these properly
@@ -315,6 +326,7 @@ export default withRouter(
 
         // item.type is one of ["worker", "action", "unit", "structure", "upgrade"]
         addItemToBO = (item: IBuildOrderElement, doUpdateHistory = true): Partial<WebPageState> => {
+            console.log(item.name + " " +item.type)
             const [gamelogic, insertedItems] = GameLogic.addItemToBO(
                 this.state.gamelogic,
                 item,
@@ -603,6 +615,107 @@ export default withRouter(
                     e.preventDefault()
                     return
                 }
+            }
+
+            if( e.key=="a" ) {
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "MissileTurret", type: "structure"}) }
+                if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "Armory", type: "structure"}) }
+                if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "Marine", type: "unit"}) }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "Cyclone", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Viking", type: "unit"}); return }
+                return
+            }
+            if( e.key=="b" ) {
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "Barracks", type: "structure"}); return }
+                this.hotkey_context = CTX_B
+                return
+            }
+            if( e.key=="c" ) {
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "CommandCenter", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_CC ) { this.addItemToBO({name: "OrbitalCommand", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "FusionCore", type: "structure"}) }
+                if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "BarracksReactor", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "FactoryReactor", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "StarportReactor", type: "structure"}); return }
+                return
+            }
+            if( e.key=="d" ) {
+                if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "Marauder", type: "unit"}) }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "WidowMine", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Medivac", type: "unit"}); return }
+                return
+            }
+            if( e.key=="e" ) {
+                if ( this.hotkey_context == CTX_CC ) { this.addItemToBO({name: "call_down_mule", type: "action"}); return }
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "EngineeringBay", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "GhostAcademy", type: "structure"}) }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "Hellion", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Banshee", type: "unit"}); return }
+                return
+            }
+            if( e.key=="f" ) {
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "Bunker", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_CC ) { this.addItemToBO({name: "OrbitalCommand", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "Factory", type: "structure"}) }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "Thor", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "BattleCruiser", type: "unit"}); return }
+                return
+            }
+            if( e.key=="r" ) {
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "Refinery", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_CC ) { this.addItemToBO({name: "3worker_to_gas", type: "action"}); return }
+                if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "Reaper", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "HellionTank", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Raven", type: "unit"}); return }
+                return
+            }
+            if( e.key=="s" ) {
+                if ( this.hotkey_context == CTX_CC ) { this.addItemToBO({name: "SCV", type: "worker"}) }
+                if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "SupplyDepot", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "Starport", type: "structure"}) }
+                if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "Ghost", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "SeigeTank", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Liberator", type: "unit"}); return }
+                return
+            }
+            if( e.key=="v" ) {
+                this.hotkey_context = CTX_V
+                return
+            }
+            if( e.key=="x" ) {
+                if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "BarracksTechLab", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "FactoryTechLab", type: "structure"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "StarportTechLab", type: "structure"}); return }
+                return
+            }
+            if( e.key=="1" ) {
+                this.hotkey_context = CTX_CC
+                return
+            }
+            if( e.key=="2" ) {
+                this.hotkey_context = CTX_R
+                return
+            }
+            if( e.key=="3" ) {
+                this.hotkey_context = CTX_F
+                return
+            }
+            if( e.key=="4" ) {
+                this.hotkey_context = CTX_S
+                return
+            }
+            if( e.key=="Tab" ) {
+                if (this.hotkey_context == CTX_R) {
+                    this.hotkey_context = CTX_F
+                } else if (this.hotkey_context == CTX_F) {
+                    this.hotkey_context = CTX_S
+                } else if (this.hotkey_context == CTX_S) {
+                    this.hotkey_context = CTX_R
+                }
+                return
+            }
+            if( e.key=="Backspace" ) {
+                this.undo()
             }
 
             //Optimize constraints
