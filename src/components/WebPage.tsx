@@ -622,7 +622,7 @@ export default withRouter(
                 if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "Armory", type: "structure"}) }
                 if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "Marine", type: "unit"}) }
                 if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "Cyclone", type: "unit"}); return }
-                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Viking", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "VikingFighter", type: "unit"}); return }
                 return
             }
             if( e.key=="b" ) {
@@ -681,7 +681,7 @@ export default withRouter(
                 if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "SupplyDepot", type: "structure"}); return }
                 if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "Starport", type: "structure"}) }
                 if ( this.hotkey_context == CTX_R ) { this.addItemToBO({name: "Ghost", type: "unit"}); return }
-                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "SeigeTank", type: "unit"}); return }
+                if ( this.hotkey_context == CTX_F ) { this.addItemToBO({name: "SiegeTank", type: "unit"}); return }
                 if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "Liberator", type: "unit"}); return }
                 return
             }
