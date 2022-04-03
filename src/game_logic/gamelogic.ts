@@ -1022,8 +1022,7 @@ class GameLogic {
             ]
         if (minerals === undefined) {
             minerals =
-                incomeMinerals(this.workersMinerals, this.baseCount, this.muleCount) /
-                +this.settings.incomeFactor
+                incomeMinerals(this.workersMinerals, this.baseCount, this.muleCount) /// +this.settings.incomeFactor
             mineralIncomeCache[
                 // TODO Fix me: array[number] cannot be used as index type
                 // @ts-ignore
@@ -1036,8 +1035,7 @@ class GameLogic {
         let vespene = vespeneIncomeCache[[this.workersVespene, this.gasCount]]
         if (vespene === undefined) {
             vespene =
-                incomeVespene(this.workersVespene, this.gasCount, this.baseCount) /
-                +this.settings.incomeFactor
+                incomeVespene(this.workersVespene, this.gasCount, this.baseCount) /// +this.settings.incomeFactor
             // TODO Fix me: array[number] cannot be used as index type
             // @ts-ignore
             vespeneIncomeCache[[this.workersVespene, this.gasCount]] = vespene

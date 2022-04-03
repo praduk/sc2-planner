@@ -8,8 +8,8 @@ const incomeMinerals = (workers: number, bases: number, mules = 0): number => {
     }
 
     // How many close and far mineral patches there are per base
-    const amount_close_patches = 5
-    const amount_far_patches = 3
+    const amount_close_patches = 4
+    const amount_far_patches = 4
     const full_saturation = 3 * (amount_close_patches + amount_far_patches)
 
     // Ignore workers that oversaturate a base (more than 24 workers)
@@ -26,34 +26,53 @@ const incomeMinerals = (workers: number, bases: number, mules = 0): number => {
     let third_worker_far_patch = 0
     let workers_far_patch = 0
 
-    const income_workers_far_patch = 32
-    const income_third_worker_far_patch = 32
+    const income_three_workers = 145
+    const income_workers_far_patch = 54.75
+    const income_third_worker_far_patch = Math.max(0, income_three_workers - 2*income_workers_far_patch)
+    const income_workers_close_patch = 62.5
+    const income_third_worker_close_patch = Math.max(0, income_three_workers - 2*income_workers_close_patch)
 
-    const income_workers_close_patch = 46
-    const income_third_worker_close_patch = Math.max(0, 102 - 2 * income_workers_close_patch)
-
-    // Add workers as third workers to close patches
-    if (workers > 19) {
-        third_worker_close_patch = workers - 19
-        workers -= third_worker_close_patch
+    //////////////// optimal saturation ////////////////
+    //// Add workers as third workers to close patches
+    //const threshold_far_third_workers = full_saturation - amount_close_patches
+    //if (workers > threshold_far_third_workers) {
+    //    third_worker_close_patch = workers - threshold_far_third_workers
+    //    workers = threshold_far_third_workers
+    //}
+    //const threshold_far_patch_worker = 2*(amount_close_patches + amount_far_patches);
+    //if (workers > threshold_far_patch_worker) {
+    //    third_worker_far_patch = workers - threshold_far_patch_worker
+    //    workers = threshold_far_patch_worker
+    //}
+    //const threshold_close_patch_worker = amount_close_patches*2;
+    //if (workers > threshold_close_patch_worker) {
+    //    workers_far_patch = workers - threshold_close_patch_worker
+    //    workers = threshold_close_patch_worker
+    //}
+    //// Remaining workers are on close patch
+    //const workers_close_patch = workers
+    //////////////// optimal saturation ////////////////
+    
+    ////////////// human saturation ////////////////
+    workers_far_patch = Math.floor(workers*amount_far_patches/(amount_far_patches+amount_close_patches))
+    workers = workers - workers_far_patch
+    if( workers_far_patch > amount_far_patches*2) {
+        third_worker_far_patch = workers_far_patch - amount_far_patches*2
+        workers_far_patch = amount_far_patches*2
     }
-    if (workers > 16) {
-        third_worker_far_patch = workers - 16
-        workers -= third_worker_far_patch
+    if( workers > amount_close_patches*2) {
+        third_worker_close_patch = workers - amount_close_patches*2
+        workers = amount_close_patches*2
     }
-    if (workers > 10) {
-        workers_far_patch = workers - 10
-        workers -= workers_far_patch
-    }
-    // Remaining workers are on close patch
     const workers_close_patch = workers
+    ////////////// human saturation ////////////////
 
     let income_per_min = 0
     const array = [
         workers_close_patch * income_workers_close_patch,
         workers_far_patch * income_workers_far_patch,
-        income_third_worker_far_patch * third_worker_far_patch,
-        income_third_worker_close_patch * third_worker_close_patch,
+        third_worker_far_patch * income_third_worker_far_patch,
+        third_worker_close_patch * income_third_worker_close_patch,
     ]
     array.forEach((value) => {
         income_per_min += value
@@ -61,7 +80,7 @@ const incomeMinerals = (workers: number, bases: number, mules = 0): number => {
 
     // Income per second
     const mule_rate = 225 / 64
-    return (1.4 * income_per_min) / 60 + mules * mule_rate
+    return income_per_min / 60 + mules * mule_rate
 }
 
 const incomeVespenePerGeyser = (workers: number): number => {
@@ -69,11 +88,11 @@ const incomeVespenePerGeyser = (workers: number): number => {
     if (workers === 0) {
         return 0
     }
-    const gas_per_trip = 4
-    const seconds_per_trip_close_gas = [6.3, 2.9, 2.07]
-    const seconds_per_trip =
-        seconds_per_trip_close_gas[Math.min(seconds_per_trip_close_gas.length, workers) - 1]
-    return 1.4 * gas_per_trip * (1 / seconds_per_trip)
+    if (workers == 3 ) {
+        //saturation income
+        return 2.7
+    }
+    return workers*0.9833
 }
 
 const incomeVespene = (workers: number, geysers: number, baseCount: number): number => {
