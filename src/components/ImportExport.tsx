@@ -122,12 +122,60 @@ export default class ImportExport extends Component<MyProps> {
         // Returns a human readable build order instruction
         const gamelogic = this.props.gamelogic
         const instructions: Array<string> = []
+        let first_orbital = true
         gamelogic.eventLog.forEach((item) => {
             let instructionString = templateString
             let itemName = item.name
+            if( itemName == "SupplyDepot") {
+                itemName = "Depot"
+            }
+            if( itemName == "CommandCenter") {
+                itemName = "Command Center"
+            }
+            if( itemName == "OrbitalCommand") {
+                if(first_orbital) {
+                    itemName = "!orbital"
+                    first_orbital = false
+                } else {
+                    itemName = "Orbital Command"
+                }
+            }
+            if( itemName == "Viking Fighter") {
+                itemName = "Viking"
+            }
+            if( itemName == "SiegeTank") {
+                itemName = "Siege Tank"
+            }
+            if( itemName == "FactoryTechLab") {
+                itemName = "Factory Tech Lab"
+            }
+            if( itemName == "BarracksTechLab") {
+                itemName = "Barracks Tech Lab"
+            }
+            if( itemName == "StarportTechLab") {
+                itemName = "Starport Tech Lab"
+            }
+            if( itemName == "FactoryReactor") {
+                itemName = "Factory Reactor"
+            }
+            if( itemName == "BarracksReactor") {
+                itemName = "Barracks Reactor"
+            }
+            if( itemName == "StarportReactor") {
+                itemName = "Starport Reactor"
+            }
             if (item.type === "action") {
                 const action = CUSTOMACTIONS_BY_NAME[item.name]
                 itemName = action.name
+                if( itemName == "Stop mine gas") {
+                    itemName = "Worker off gas"
+                }
+                if( itemName == "Mine gas") {
+                    itemName = "Worker back on gas"
+                }
+                if( itemName == "3x Mine gas") {
+                    itemName = "Mine gas"
+                }
             }
             const replaceValues: { [name: string]: string } = {
                 $time: CONVERT_SECONDS_TO_TIME_STRING(item.start / 22.4),
