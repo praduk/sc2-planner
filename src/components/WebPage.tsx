@@ -143,7 +143,7 @@ export default withRouter(
                 highlightedIndexes: [],
                 // Index at which new build order items should be inserted (selected index)
                 insertIndex: bo.length,
-                multilineBuildOrder: true,
+                multilineBuildOrder: false,
                 minimizedActionsSelection: false,
             }
         }
