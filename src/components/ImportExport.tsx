@@ -123,11 +123,18 @@ export default class ImportExport extends Component<MyProps> {
         const gamelogic = this.props.gamelogic
         const instructions: Array<string> = []
         let first_orbital = true
+        let first_barracks = true
         gamelogic.eventLog.forEach((item) => {
             let instructionString = templateString
             let itemName = item.name
             if( itemName == "SupplyDepot") {
                 itemName = "Depot"
+            }
+            if( itemName == "Barracks") {
+                if(first_barracks) {
+                    itemName = "!barracks"
+                    first_barracks = false
+                }
             }
             if( itemName == "CommandCenter") {
                 itemName = "Command Center"
