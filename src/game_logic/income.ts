@@ -53,19 +53,53 @@ const incomeMinerals = (workers: number, bases: number, mules = 0): number => {
     //const workers_close_patch = workers
     //////////////// optimal saturation ////////////////
     
-    ////////////// human saturation ////////////////
-    workers_far_patch = Math.floor(workers*amount_far_patches/(amount_far_patches+amount_close_patches))
-    workers = workers - workers_far_patch
-    if( workers_far_patch > amount_far_patches*2) {
-        third_worker_far_patch = workers_far_patch - amount_far_patches*2
+    //////////////// human saturation ////////////////
+    //workers_far_patch = Math.floor(workers*amount_far_patches/(amount_far_patches+amount_close_patches))
+    //workers = workers - workers_far_patch
+    //if( workers_far_patch > amount_far_patches*2) {
+    //    third_worker_far_patch = workers_far_patch - amount_far_patches*2
+    //    workers_far_patch = amount_far_patches*2
+    //}
+    //if( workers > amount_close_patches*2) {
+    //    third_worker_close_patch = workers - amount_close_patches*2
+    //    workers = amount_close_patches*2
+    //}
+    //const workers_close_patch = workers
+    //////////////// human saturation ////////////////
+    //////////////// bad saturation ////////////////
+    //const start_workers = workers
+    let workers_left = workers
+    // allocate up to 2 to far patches
+    if( workers_left > amount_far_patches*2 ) {
         workers_far_patch = amount_far_patches*2
+        workers_left -= amount_far_patches*2
+    } else {
+        workers_far_patch = workers_left
+        workers_left = 0
     }
-    if( workers > amount_close_patches*2) {
-        third_worker_close_patch = workers - amount_close_patches*2
+    // allocate up to 2 to close patches
+    if( workers_left > amount_close_patches*2 ) {
         workers = amount_close_patches*2
+        workers_left -= amount_close_patches*2
+    } else {
+        workers  = workers_left
+        workers_left = 0
     }
     const workers_close_patch = workers
-    ////////////// human saturation ////////////////
+    // allocate 3rd workers to near patch
+    if( workers_left > amount_close_patches ) {
+        third_worker_close_patch = amount_close_patches
+        workers_left -= amount_close_patches
+    }
+    else {
+        third_worker_close_patch = workers_left
+        workers_left = 0
+    }
+    // allocate 3rd workers to far patch
+    third_worker_far_patch = Math.min(workers_left,amount_far_patches)
+    ////////////// bad saturation ////////////////
+
+    //console.log(start_workers + " " + workers_far_patch + " " + workers_close_patch + " " + third_worker_close_patch + " " + third_worker_far_patch)
 
     let income_per_min = 0
     const array = [

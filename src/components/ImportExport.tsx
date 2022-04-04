@@ -31,9 +31,10 @@ export default class ImportExport extends Component<MyProps> {
         export: false,
         import: false,
         tooltipText: "",
-        templateString: "$time $supply $action",
+        //templateString: "$time $supply $action",
+        templateString: "$time $action",
         templateStringTooltip: "",
-        humanReadableIncludeWorkers: true,
+        humanReadableIncludeWorkers: false,
         humanReadableIncludeActions: true,
     }
 
