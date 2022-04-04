@@ -131,7 +131,8 @@ export default class ImportExport extends Component<MyProps> {
             }
             const replaceValues: { [name: string]: string } = {
                 $time: CONVERT_SECONDS_TO_TIME_STRING(item.start / 22.4),
-                $supply: `${item.supply}`,
+                //$supply: `${item.supply}`,
+                $supply: "",
                 $action: itemName,
             }
             for (const replaceString in replaceValues) {
