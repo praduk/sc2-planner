@@ -144,7 +144,10 @@ export default class ActionsSelection extends Component<MyProps, MyState> {
                     e,
                     <div className="flex flex-col text-center">
                         <div>{item.name}</div>
-                        <div>{item.minerals}/{item.gas}/{item.supply}/{Math.round(item.time / 22.4)}s</div>
+                        <div>Minerals: {GameLogic.getCost(item.name).minerals}</div>
+                        <div>Vespene: {GameLogic.getCost(item.name).vespene}</div>
+                        <div>Supply: {GameLogic.getCost(item.name).supply}</div>
+                        <div>Train time: {Math.round(item.time / 22.4)}s</div>
                     </div>
                 )
             }
@@ -179,7 +182,9 @@ export default class ActionsSelection extends Component<MyProps, MyState> {
                     e,
                     <div className="flex flex-col text-center">
                         <div>{item.name}</div>
-                        <div>{item.minerals}/{item.gas}/{Math.round(item.time / 22.4)}s</div>
+                        <div>Minerals: {GameLogic.getCost(item.name).minerals}</div>
+                        <div>Vespene: {GameLogic.getCost(item.name).vespene}</div>
+                        <div>Build time: {Math.round(item.time / 22.4)}s</div>
                     </div>
                 )
             }

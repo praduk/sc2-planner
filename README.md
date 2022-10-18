@@ -32,7 +32,7 @@ With the arrow keys (left and right) you can navigate through the build order. H
 
 ## Requirements
 
-[Node 10 or newer](https://nodejs.org/en/download/) is required to create this static website.
+[Node 12 or newer](https://nodejs.org/en/download/) is required to create this static website.
 
 [Python 3.7 or newer](https://www.python.org/downloads/) is required to run pre-commit hooks and e2e tests.
 
@@ -71,7 +71,10 @@ To deploy in `/build` directory:
 
 To run pre-commit hooks manually, run
 
-`poetry run pre-commit run --all-files`
+```
+poetry run pre-commit install
+poetry run pre-commit run --all-files
+```
 
 ## Update
 
