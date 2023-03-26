@@ -47,12 +47,13 @@ interface Save {
 
 
 // Contexts for Hotkeys
-const CTX_CC = 0; // Command Center
-const CTX_R = 1;  // Barracks
-const CTX_F = 2;  // Factory
-const CTX_S = 3;  // Starport
-const CTX_B = 4;  // Build Menu
-const CTX_V = 5;  // Build Advanced Menu 
+const CTX_CC = 0;   // Command Center
+const CTX_R = 1;    // Barracks
+const CTX_F = 2;    // Factory
+const CTX_S = 3;    // Starport
+const CTX_B = 4;    // Build Menu
+const CTX_V = 5;    // Build Advanced Menu 
+const CTX_SCV = 6;  // SCV Selection
 
 export default withRouter(
     class WebPage extends Component<RouteComponentProps, WebPageState> {
@@ -617,6 +618,117 @@ export default withRouter(
                 }
             }
 
+            console.log("Key pressed: " + e.key)
+
+            ///////////////////////// NEW HOTKEYS /////////////////////
+            let handled = false
+
+            // Context Switching
+            if( e.key=="i" || e.key=="o" ) {
+                this.hotkey_context = CTX_SCV
+                this.forceUpdate()
+                return
+            }
+            if( e.key=="k" ) {
+                this.hotkey_context = CTX_CC
+                this.forceUpdate()
+                return
+            }
+            if( e.key=="l" ) {
+                this.hotkey_context = CTX_R
+                this.forceUpdate()
+                return
+            }
+            if( e.key=="m" ) {
+                if( this.hotkey_context==CTX_R ) { this.hotkey_context = CTX_F; this.forceUpdate(); return }
+                if( this.hotkey_context==CTX_F ) { this.hotkey_context = CTX_S; this.forceUpdate(); return }
+                if( this.hotkey_context==CTX_S ) { this.hotkey_context = CTX_R; this.forceUpdate(); return }
+            }
+            if( e.key=="M" ) {
+                if( this.hotkey_context==CTX_R ) { this.hotkey_context = CTX_S; this.forceUpdate(); return }
+                if( this.hotkey_context==CTX_F ) { this.hotkey_context = CTX_R; this.forceUpdate(); return }
+                if( this.hotkey_context==CTX_S ) { this.hotkey_context = CTX_F; this.forceUpdate(); return }
+            }
+
+            // SCV Selection
+            if( this.hotkey_context==CTX_SCV ) {
+                if( e.key=="p" ) { this.hotkey_context = CTX_B; this.forceUpdate(); return }
+                if( e.key==";" ) { this.hotkey_context = CTX_V; this.forceUpdate(); return }
+            }
+
+            // Build Menu
+            if( this.hotkey_context==CTX_B ) {
+                if ( e.key=="j" ) { this.addItemToBO({name: "SupplyDepot", type: "structure"}); handled = true }
+                if ( e.key=="p" ) { this.addItemToBO({name: "Barracks", type: "structure"}); handled = true }
+                if ( e.key=="h" ) { this.addItemToBO({name: "Refinery", type: "structure"}); handled = true }
+                if ( e.key=="[" ) { this.addItemToBO({name: "CommandCenter", type: "structure"}); handled = true }
+                if ( e.key=="-" ) { this.addItemToBO({name: "CommandCenter", type: "structure"}); handled = true }
+                if ( e.key=="u" ) { this.addItemToBO({name: "MissileTurret", type: "structure"}); handled = true }
+                if ( e.key==";" ) { this.addItemToBO({name: "Bunker", type: "structure"}); handled = true }
+                if ( e.key=="'" ) { this.addItemToBO({name: "SensorTower", type: "structure"}); handled = true }
+                if ( e.key=="n" ) { this.addItemToBO({name: "EngineeringBay", type: "structure"}); handled = true }
+                if( handled ) {
+                    this.hotkey_context=CTX_SCV
+                    this.forceUpdate()
+                    return
+                }
+            }
+
+            // Advanced Build Menu
+            if( this.hotkey_context==CTX_V ) {
+                if ( e.key=="h" ) { this.addItemToBO({name: "GhostAcademy", type: "structure"}); handled = true }
+                if ( e.key=="j" ) { this.addItemToBO({name: "Factory", type: "structure"}); handled = true }
+                if ( e.key=="n" ) { this.addItemToBO({name: "Armory", type: "structure"}); handled = true }
+                if ( e.key=="[" ) { this.addItemToBO({name: "FusionCore", type: "structure"}); handled = true }
+                if ( e.key==";" ) { this.addItemToBO({name: "Starport", type: "structure"}); handled = true }
+                if( handled ) {
+                    this.hotkey_context=CTX_SCV
+                    this.forceUpdate()
+                    return
+                }
+            }
+
+            // Command Center
+            if( this.hotkey_context==CTX_CC) {
+                if ( e.key=="p" ) { this.addItemToBO({name: "SCV", type: "worker"}); return }
+                if ( e.key=="j" ) { this.addItemToBO({name: "OrbitalCommand", type: "structure"}); return }
+                if ( e.key==";" || e.key=="[" ) { this.addItemToBO({name: "call_down_mule", type: "action"}); return }
+            }
+
+            // Barracks
+            if( this.hotkey_context==CTX_R ) {
+                if ( e.key=="p" ) { this.addItemToBO({name: "Marauder", type: "unit"}); return }
+                if ( e.key=="[" ) { this.addItemToBO({name: "Ghost", type: "unit"}); return }
+                if ( e.key=="j" ) { this.addItemToBO({name: "Marine", type: "unit"}); return }
+                if ( e.key==";" ) { this.addItemToBO({name: "Reaper", type: "unit"}); return }
+                if ( e.key=="n" ) { this.addItemToBO({name: "BarracksReactor", type: "structure"}); return }
+                if ( e.key=="u" ) { this.addItemToBO({name: "BarracksTechLab", type: "structure"}); return }
+            }
+
+            // Factory
+            if( this.hotkey_context==CTX_F ) {
+                if ( e.key==";" ) { this.addItemToBO({name: "SeigeTank", type: "unit"}); return }
+                if ( e.key=="j" ) { this.addItemToBO({name: "Hellion", type: "unit"}); return }
+                if ( e.key=="p" ) { this.addItemToBO({name: "WidowMine", type: "unit"}); return }
+                if ( e.key=="-" ) { this.addItemToBO({name: "Thor", type: "unit"}); return }
+                if ( e.key=="[" ) { this.addItemToBO({name: "Cyclone", type: "unit"}); return }
+                if ( e.key=="n" ) { this.addItemToBO({name: "FactoryReactor", type: "structure"}); return }
+                if ( e.key=="u" ) { this.addItemToBO({name: "FactoryTechLab", type: "structure"}); return }
+            }
+
+            // Starport 
+            if( this.hotkey_context==CTX_S ) {
+                if ( e.key==";" ) { this.addItemToBO({name: "Medivac", type: "unit"}); return }
+                if ( e.key=="j" ) { this.addItemToBO({name: "VikingFighter", type: "unit"}); return }
+                if ( e.key=="p" ) { this.addItemToBO({name: "Liberator", type: "unit"}); return }
+                if ( e.key=="-" ) { this.addItemToBO({name: "Banshee", type: "unit"}); return }
+                if ( e.key=="[" ) { this.addItemToBO({name: "Raven", type: "unit"}); return }
+                if ( e.key=="=" ) { this.addItemToBO({name: "BattleCruiser", type: "unit"}); return }
+                if ( e.key=="n" ) { this.addItemToBO({name: "StarportReactor", type: "structure"}); return }
+                if ( e.key=="u" ) { this.addItemToBO({name: "StarportTechLab", type: "structure"}); return }
+            }
+
+            /////////////////////// OLD HOTKEYS ////////////////////////
             if( e.key=="a" ) {
                 if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "MissileTurret", type: "structure"}) }
                 if ( this.hotkey_context == CTX_V ) { this.addItemToBO({name: "Armory", type: "structure"}) }
@@ -625,7 +737,7 @@ export default withRouter(
                 if ( this.hotkey_context == CTX_S ) { this.addItemToBO({name: "VikingFighter", type: "unit"}); return }
                 return
             }
-            if( e.key=="b" ) {
+            if( e.key=="b" || (this.hotkey_context==CTX_SCV && e.key=="p") ) {
                 if ( this.hotkey_context == CTX_B ) { this.addItemToBO({name: "Barracks", type: "structure"}); return }
                 this.hotkey_context = CTX_B
                 this.forceUpdate()
@@ -716,7 +828,7 @@ export default withRouter(
                 this.forceUpdate()
                 return
             }
-            if( e.key=="Tab" ) {
+            if( e.key=="Tab" || e.key=="n" ) {
                 if (this.hotkey_context == CTX_R) {
                     this.hotkey_context = CTX_F
                 } else if (this.hotkey_context == CTX_F) {
@@ -730,6 +842,7 @@ export default withRouter(
             if( e.key=="Backspace" ) {
                 //this.undo()
                 this.removeItemFromBO(this.state.insertIndex-1)
+                return
             }
 
             //Optimize constraints
@@ -834,6 +947,7 @@ export default withRouter(
             if( this.hotkey_context == CTX_S  ) { selectionText = "Starports" }
             if( this.hotkey_context == CTX_B  ) { selectionText = "Build Menu" }
             if( this.hotkey_context == CTX_V  ) { selectionText = "Advanced Build Menu" }
+            if( this.hotkey_context == CTX_SCV  ) { selectionText = "SCV Selected" }
 
 
             return (

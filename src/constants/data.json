@@ -12383,7 +12383,7 @@
             "armor": 1.0,
             "attributes": ["Light", "Mechanical"],
             "detection_range": 11.0,
-            "gas": 200,
+            "gas": 150,
             "id": 56,
             "is_addon": false,
             "is_flying": true,
@@ -12405,7 +12405,7 @@
             "speed_creep_mul": 1.0,
             "start_energy": 50,
             "supply": 2.0,
-            "time": 960.0,
+            "time": 768.0,
             "weapons": []
         },
         {
@@ -18621,7 +18621,7 @@
             "accepts_addon": false,
             "armor": 0.0,
             "attributes": ["Armored", "Mechanical"],
-            "gas": 150,
+            "gas": 125,
             "id": 689,
             "is_addon": false,
             "is_flying": true,
@@ -21356,9 +21356,9 @@
         },
         {
             "cost": {
-                "gas": 150,
-                "minerals": 150,
-                "time": 2720.0
+                "gas": 125,
+                "minerals": 125,
+                "time": 2240.0
             },
             "id": 136,
             "name": "BansheeSpeed"
